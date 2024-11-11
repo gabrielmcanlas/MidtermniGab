@@ -1,11 +1,14 @@
 <?php
+// Start the session to store user data
+session_start();
+
 // Predefined users (email => password)
 $users = [
-    'user1@email.com' => '12345678',
-    'user2@email.com' => '12345678',
-    'user3@email.com' => '12345678',
-    'user4@email.com' => '12345678',
-    'user5@email.com' => '12345678',
+    'gabriel@email.com' => '12345678',
+    'ian@email.com' => '12345678',
+    'paul@email.com' => '12345678',
+    'miranda@email.com' => '12345678',
+    'canlas@email.com' => '12345678',
 ];
 
 // Initialize variables
@@ -36,7 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Check if email exists in predefined users
         if (array_key_exists($email, $users)) {
             // Check if password matches the one in the array
-            if ($users[$email] !== $password) {
+            if ($users[$email] === $password) {
+                // Successful login, store user email in session
+                $_SESSION['email'] = $email;
+                // Redirect to the dashboard
+                header('Location: dashboard.php');
+                exit;
+            } else {
                 $errorDetails[] = 'Password is incorrect.';
             }
         } else {
